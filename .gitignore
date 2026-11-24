@@ -1,0 +1,14 @@
+# Dépendances et outils de test (non nécessaires au fonctionnement du jeu)
+node_modules/
+package.json
+package-lock.json
+playwright.config.js
+tests/
+test-results/
+
+# Scripts et logs de développement local
+serve.js
+serve2.ps1
+scan.pl
+server.log
+*.log

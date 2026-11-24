@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mine 3D — Pioche et fortune</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="scene"></div>
+<div id="viseur"></div>
+<div id="overlay"><div>Clique pour verrouiller la souris<br><small>Échap libère la souris — B ouvre la boutique</small></div></div>
+
+<header id="hud">
+  <h1>Mine 3D</h1>
+  <div class="stat pieces">Pièces <strong id="pieces">0</strong></div>
+  <div class="stat">Profondeur <strong id="profondeur">1</strong></div>
+  <div class="stat">Pioche <strong id="piocheNom"></strong></div>
+  <div class="stat">Bottes <strong id="bottesNom"></strong></div>
+  <div class="stat" id="inventaire" title="Pépites dans l'inventaire"></div>
+  <button id="btnBoutique" class="btn-hud">Boutique (B)</button>
+  <button id="btnMarchand" class="btn-hud btn-marchand">Marchand (E)</button>
+</header>
+
+<div id="hintMarchand">E : vendre tes pépites au marchand</div>
+
+<div id="menuBoutique" class="modal">
+  <div class="modal-box">
+    <h2>Boutique</h2>
+    <div class="solde">Solde : <strong id="soldeMenu">0</strong> pièces</div>
+    <h3>Pioches</h3>
+    <div id="cartesPioches" class="cartes"></div>
+    <h3>Bottes</h3>
+    <div id="cartesBottes" class="cartes"></div>
+    <button id="fermerBoutique" class="btn-fermer">Fermer (B ou Échap)</button>
+  </div>
+</div>
+
+<div id="menuMarchand" class="modal">
+  <div class="modal-box">
+    <h2>Le marchand</h2>
+    <div class="solde">Il rachète tes pépites. Solde : <strong id="soldeMarchand">0</strong> pièces</div>
+    <h3>Tes pépites</h3>
+    <div id="cartesPepites" class="cartes"></div>
+    <button id="vendreTout" class="btn-acheter btn-tout">Tout vendre</button>
+    <button id="fermerMarchand" class="btn-fermer">Fermer (E ou Échap)</button>
+  </div>
+</div>
+
+<div id="journal"></div>
+<div id="aide">ZQSD / WASD / flèches : bouger &nbsp;—&nbsp; Souris : regarder &nbsp;—&nbsp; Clic maintenu : miner &nbsp;—&nbsp; Espace : sauter &nbsp;—&nbsp; B : boutique &nbsp;—&nbsp; E : marchand &nbsp;—&nbsp; T : vue 3e personne</div>
+
+<script src="three.min.js"></script>
+<script src="logique.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

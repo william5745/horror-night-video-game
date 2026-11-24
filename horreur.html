@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuit Noire — Château abandonné</title>
+<link rel="stylesheet" href="horreur.css?v=9">
+</head>
+<body>
+<div id="scene"></div>
+
+<!-- Viseur -->
+<div id="viseur"></div>
+<div id="viseurSniper"></div>
+
+<!-- Vignettage cinéma -->
+<div id="vignette"></div>
+
+<!-- Bords rouges quand le monstre poursuit -->
+<div id="danger"></div>
+
+<!-- Flash rouge du screamer -->
+<div id="flash"></div>
+
+<!-- Minicarte en haut à gauche -->
+<div id="carte">
+  <div id="carteTitre">Carte du château</div>
+  <canvas id="minimap" width="200" height="200"></canvas>
+</div>
+
+<!-- Mission en haut au centre -->
+<div id="mission">🎯 Mission : trouver un pied de biche</div>
+
+<!-- Barre de vie du boss de la crypte -->
+<div id="bossBar">
+  <div id="bossBarLabel">☠ BOSS DE LA CRYPTE ☠</div>
+  <div id="bossBarTrack"><div id="bossBarFill"></div></div>
+</div>
+
+<!-- Messages temporaires (monstre, etc.) -->
+<div id="msgMonstre"></div>
+
+<!-- Horodatage style caméra embarquée (bodycam) -->
+<div id="horodatage">
+  <span id="rec">● REC</span>
+  <span id="dateHeure"></span>
+</div>
+
+<!-- Écran d'accueil / verrouillage souris -->
+<div id="overlay">
+  <div class="overlay-box">
+    <h1>Nuit Noire</h1>
+    <p>Tu te réveilles dans la cour d'un château abandonné. Ta caméra frontale est allumée.</p>
+    <p class="clic">Clique pour verrouiller la souris et jouer</p>
+    <small>Échap libère la souris</small>
+  </div>
+</div>
+
+<!-- Invite d'interaction contextuelle -->
+<div id="prompt"></div>
+
+<!-- Tchat / commandes (Entrée ou T pour ouvrir) -->
+<div id="chatLog"></div>
+<input id="chatInput" type="text" placeholder="/admin + code à 5 chiffres, puis /next" maxlength="60">
+
+<!-- Inventaire (molette pour défiler) -->
+<div id="inventaire">
+  <div id="slots"></div>
+  <div id="objetSelectionne"></div>
+</div>
+
+<!-- Page du livre (code) -->
+<div id="pageLivre">
+  <div class="page">
+    <h2>Journal du gardien</h2>
+    <p>« Le coffre de la crypte s'ouvre avec le code : »</p>
+    <div class="codeLivre">7 - 3 - 9 - 2</div>
+    <small>L : fermer le livre</small>
+  </div>
+</div>
+
+<!-- Digicode du coffre -->
+<div id="digicode">
+  <div class="digibox">
+    <h2>🔒 Entre le code</h2>
+    <div id="codeSaisi">_ _ _ _</div>
+    <small>chiffres 0-9 — Échap : fermer</small>
+  </div>
+</div>
+
+<!-- Barre d'aide -->
+<div id="aide">ZQSD / WASD / flèches : bouger &nbsp;—&nbsp; Souris : regarder &nbsp;—&nbsp; Maj : courir &nbsp;—&nbsp; Espace : sauter &nbsp;—&nbsp; F : lampe torche &nbsp;—&nbsp; E : prendre / utiliser &nbsp;—&nbsp; Clic gauche : frapper (pied de biche) &nbsp;—&nbsp; C : se cacher sous le lit &nbsp;—&nbsp; L : lire le livre</div>
+
+<script src="three.min.js"></script>
+<script src="horreur.js?v=89"></script>
+</body>
+</html>

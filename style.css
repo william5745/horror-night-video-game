@@ -1,0 +1,234 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #87ceeb;
+  color: #eee;
+}
+
+#scene { position: fixed; inset: 0; }
+#scene canvas { display: block; }
+
+/* Viseur (1re personne) */
+#viseur {
+  position: fixed;
+  top: 50%; left: 50%;
+  width: 18px; height: 18px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: difference;
+}
+#viseur::before, #viseur::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+}
+#viseur::before { left: 50%; top: 0; width: 2px; height: 100%; transform: translateX(-50%); }
+#viseur::after { top: 50%; left: 0; height: 2px; width: 100%; transform: translateY(-50%); }
+
+/* Écran "clique pour verrouiller la souris" */
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 20;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #fff;
+  text-shadow: 0 2px 4px #000;
+}
+#overlay small { font-size: 0.85rem; color: #ccc; }
+
+/* Barre du haut */
+#hud {
+  position: fixed;
+  top: 10px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(15, 25, 15, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+#hud h1 { font-size: 1.05rem; color: #ffd94a; margin-right: 4px; }
+
+.stat {
+  font-size: 0.82rem;
+  color: #cfd8cf;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.stat strong { color: #fff; margin-left: 4px; }
+.stat.pieces { background: rgba(255, 217, 74, 0.18); color: #ffe9a3; }
+.stat.pieces strong { color: #ffd94a; }
+
+/* Pastilles de pépites dans l'inventaire */
+#inventaire { display: flex; gap: 6px; align-items: center; background: transparent; padding: 4px 6px; }
+.pepite {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #fff;
+  text-shadow: 0 1px 2px #000;
+}
+.pepite .pastille { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+
+.btn-hud {
+  background: #ffd94a;
+  color: #3a2f00;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: bold;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.btn-hud:hover { background: #ffe27a; }
+.btn-marchand { background: #7ee081; }
+.btn-marchand:hover { background: #98eda0; }
+
+/* Indice "parler au marchand" */
+#hintMarchand {
+  position: fixed;
+  bottom: 44px; left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  background: rgba(15, 25, 15, 0.8);
+  border: 1px solid #7ee081;
+  color: #c9f5c9;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Modales (boutique + marchand) */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 30;
+}
+
+.modal-box {
+  width: min(680px, 92vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #22331f, #16241a);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 22px 26px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-box h2 { color: #ffd94a; font-size: 1.3rem; }
+.modal-box h3 { color: #b8e986; font-size: 0.95rem; margin: 14px 0 8px; }
+
+.solde { margin-top: 4px; font-size: 1rem; color: #cfd8cf; }
+.solde strong { color: #ffd94a; }
+
+.cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.carte {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 4px solid #888;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.carte.equipee { background: rgba(255, 217, 74, 0.12); border-color: #ffd94a; }
+
+.pastille {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.carte .infos { flex: 1; min-width: 0; }
+.carte .infos strong { display: block; font-size: 0.92rem; }
+.carte .infos small { color: #9db89d; font-size: 0.78rem; }
+
+.btn-acheter {
+  background: #4a8f3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-acheter:hover:not(:disabled) { background: #5cab4a; }
+.btn-acheter:disabled { opacity: 0.45; cursor: not-allowed; }
+.carte.equipee .btn-acheter { background: #3a5a8c; }
+
+.btn-tout { width: 100%; margin-top: 12px; padding: 10px; font-size: 0.95rem; background: #b8860b; }
+.btn-tout:hover:not(:disabled) { background: #d19e0e; }
+
+.btn-fermer {
+  margin-top: 12px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.btn-fermer:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Journal */
+#journal {
+  position: fixed;
+  left: 12px; bottom: 40px;
+  width: 300px;
+  max-height: 140px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  z-index: 10;
+  text-shadow: 0 1px 2px #000;
+  pointer-events: none;
+}
+#journal div { padding: 2px 0; }
+
+/* Barre d'aide en bas */
+#aide {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #e8f0e8;
+  background: rgba(15, 25, 15, 0.72);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 10;
+}
